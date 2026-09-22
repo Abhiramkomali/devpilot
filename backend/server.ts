@@ -10,6 +10,14 @@ app.get("/", (req, res) => {
         message: "DevPilot backend is running",
     });
 });
+app.post("/api/analyze", (req, res) => {
+    const { repositoryUrl } = req.body;
+    res.json({
+        success: true,
+        message: "Repository received",
+        repositoryUrl: repositoryUrl,
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`DevPilot backend running on http://localhost:${PORT}`);

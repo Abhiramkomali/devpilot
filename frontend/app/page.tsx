@@ -1,4 +1,31 @@
+"use client";
+import { useState } from "react";
 export default function Home() {
+  const [repositoryUrl, setRepositoryUrl] = useState("");
+
+  const analyzeRepository = async () => {
+    alert("Analyze function started");
+
+  try {
+    const response = await fetch("http://localhost:5000/api/analyze", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        repositoryUrl,
+      }),
+    });
+    const data = await response.json();
+
+    alert(data.message);
+    console.log("Backend response:", data);
+  } catch (error) {
+    console.error("Request failed:", error);
+    alert("Request failed");
+  }
+  };
+
   return (
     <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-6">
       <h1 className="text-5xl font-bold">
@@ -18,10 +45,16 @@ export default function Home() {
         <input
           type="text"
           placeholder="Enter your GitHub repository URL"
+          value={repositoryUrl}
+          onChange={(e) => setRepositoryUrl(e.target.value)}
           className="flex-1 rounded-lg border border-gray-700 bg-gray-900 px-4 py-3 outline-none"
         />
 
-        <button className="rounded-lg bg-white px-6 py-3 font-semibold text-black">
+        <button
+        type="button"
+          onClick={analyzeRepository}
+         className="rounded-lg bg-white px-6 py-3 font-semibold text-black"
+         >
           Analyze
         </button>
       </div>
